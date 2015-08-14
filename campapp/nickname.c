@@ -14,6 +14,16 @@
 
 /**************************************************************************/
 
+static void dataLove(void)
+{
+    int dx = 50;
+    int dy = 0;
+
+    setExtFont(GLOBAL(nickfont));
+    dy= (RESY - getFontHeight()) / 3 * 2;
+    DoString(dx, dy, "<3");
+}
+
 void simpleNickname(void) {
     int dx=0;
 	int dy=0;
@@ -25,11 +35,12 @@ void simpleNickname(void) {
     dx=(RESX-dx)/2;
     if(dx<0)
         dx=0;
-    dy=(RESY-getFontHeight())/2;
+    dy=(RESY-getFontHeight())/3;
 
     lcdFill(GLOBAL(nickbg));
     setTextColor(GLOBAL(nickbg),GLOBAL(nickfg));
 	DoString(dx,dy,GLOBAL(nickname));
+    dataLove();
 	lcdDisplay();
 
     getInputWait();
