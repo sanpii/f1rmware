@@ -124,11 +124,11 @@ void lcdFill(char f){
 void lcdSetPixel(char x, char y, uint8_t f){
     if (x<0 || x> RESX || y<0 || y > RESY)
         return;
-    lcdBuffer[y*RESX+x] = f;
+    lcdBuffer[x*RESX+(RESY-y)] = f;
 }
 
 uint8_t lcdGetPixel(char x, char y){
-    return lcdBuffer[y*RESX+x];
+    return lcdBuffer[x*RESX+(RESY-y)];
 }
 
 void lcdDisplay(void) {
