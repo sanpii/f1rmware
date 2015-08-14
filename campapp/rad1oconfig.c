@@ -69,7 +69,7 @@ void menu_config(void){
         }
 
         switch (getInputWaitRepeat()) {
-            case BTN_UP:
+            case BTN_DOWN:
                 menuselection--;
                 if (menuselection < current_offset) {
                     if (menuselection < 0) {
@@ -80,7 +80,7 @@ void menu_config(void){
                     }
                 }
                 break;
-            case BTN_DOWN:
+            case BTN_UP:
                 menuselection++;
                 if (menuselection > (current_offset + visible_lines-1) || menuselection >= numentries) {
                     if (menuselection >= numentries) {
@@ -91,7 +91,7 @@ void menu_config(void){
                     }
                 }
                 break;
-            case BTN_LEFT:
+            case BTN_RIGHT:
                 if(the_config[t].value >
                         the_config[t].min)
                     the_config[t].value--;
@@ -100,7 +100,7 @@ void menu_config(void){
                         the_config[t].max;
                 applyConfig();
                 break;
-            case BTN_RIGHT:
+            case BTN_LEFT:
                 if(the_config[t].value <
                         the_config[t].max)
                     the_config[t].value++;

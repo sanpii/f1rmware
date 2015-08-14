@@ -52,7 +52,7 @@ void handleMenu(const struct MENU *the_menu) {
         lcdDisplay();
 
         switch (getInputWaitTimeout((menuflags&MENU_TIMEOUT)?15000:0)) {
-            case BTN_UP:
+            case BTN_LEFT:
                 menuselection--;
                 if (menuselection < current_offset) {
                     if (menuselection < 0) {
@@ -63,7 +63,7 @@ void handleMenu(const struct MENU *the_menu) {
                     }
                 }
                 break;
-            case BTN_DOWN:
+            case BTN_RIGHT:
                 menuselection++;
                 if (menuselection > (current_offset + visible_lines-1) || menuselection >= numentries) {
                     if (menuselection >= numentries) {
@@ -74,9 +74,9 @@ void handleMenu(const struct MENU *the_menu) {
                     }
                 }
                 break;
-            case BTN_LEFT:
+            case BTN_DOWN:
                 return;
-            case BTN_RIGHT:
+            case BTN_UP:
             case BTN_ENTER:
                 getInputWaitRelease();
                 if (the_menu->entries[menuselection].callback!=NULL)
