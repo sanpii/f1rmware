@@ -17,6 +17,8 @@
 #define BAT_MIN 3500
 #define BAT_MAX 4000
 
+#define RGB(r, g, b) ((r << 5) + (g << 2) + (b))
+
 /**************************************************************************/
 
 static void batteryLevel(void) {
@@ -24,6 +26,7 @@ static void batteryLevel(void) {
     int dx = 0;
     int32_t voltage = 0;
     float purcentage = 0;
+    uint8_t color = 0x00;
 
     setExtFont("normal");
     dy = RESY - getFontHeight();
@@ -36,6 +39,17 @@ static void batteryLevel(void) {
 
     voltage = batteryGetVoltage();
     purcentage = (voltage - (float)BAT_MIN) / ((float)BAT_MAX - BAT_MIN) * 100.0;
+
+    if (purcentage >= 50) {
+        color = RGB(0, 7, 0);
+    }
+    else if (purcentage >= 10) {
+        color = RGB(7, 7, 0);
+    }
+    else {
+        color = RGB(7, 0, 0);
+    }
+    setTextColor(GLOBAL(nickbg), color);
     dx = DoString(dx, dy, IntToStr(purcentage, 3, F_LONG));
     DoString(dx, dy, "%");
 }
