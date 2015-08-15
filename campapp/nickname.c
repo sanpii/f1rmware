@@ -10,9 +10,35 @@
 #include <r0ketlib/execute.h>
 #include <r0ketlib/idle.h>
 #include <r0ketlib/colorin.h>
+#include <r0ketlib/itoa.h>
+#include <rad1olib/battery.h>
 #include <string.h>
 
+#define BAT_MIN 3500
+#define BAT_MAX 4000
+
 /**************************************************************************/
+
+static void batteryLevel(void) {
+    int dy = 0;
+    int dx = 0;
+    int32_t voltage = 0;
+    float purcentage = 0;
+
+    setExtFont("normal");
+    dy = RESY - getFontHeight();
+    dx = DoString(dx, dy, "Bat");
+
+    if (batteryCharging()) {
+        dx = DoString(dx, dy, "(+)");
+    }
+    dx = DoString(dx, dy, ":");
+
+    voltage = batteryGetVoltage();
+    purcentage = (voltage - (float)BAT_MIN) / ((float)BAT_MAX - BAT_MIN) * 100.0;
+    dx = DoString(dx, dy, IntToStr(purcentage, 3, F_LONG));
+    DoString(dx, dy, "%");
+}
 
 static void dataLove(void)
 {
@@ -41,9 +67,10 @@ void simpleNickname(void) {
     setTextColor(GLOBAL(nickbg),GLOBAL(nickfg));
 	DoString(dx,dy,GLOBAL(nickname));
     dataLove();
+    batteryLevel();
 	lcdDisplay();
 
-    getInputWait();
+    getInputWaitTimeout(100);
     return;
 }
 
