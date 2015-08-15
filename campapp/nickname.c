@@ -21,7 +21,13 @@
 
 /**************************************************************************/
 
-static void batteryLevel(void) {
+static void resetColor(void)
+{
+    setTextColor(GLOBAL(nickbg), GLOBAL(nickfg));
+}
+
+static void batteryLevel(void)
+{
     int dy = 0;
     int dx = 0;
     int32_t voltage = 0;
@@ -52,16 +58,28 @@ static void batteryLevel(void) {
     setTextColor(GLOBAL(nickbg), color);
     dx = DoString(dx, dy, IntToStr(purcentage, 3, F_LONG));
     DoString(dx, dy, "%");
+    resetColor();
 }
 
 static void dataLove(void)
 {
     int dx = 50;
     int dy = 0;
+    static int blue = 0;
+    static int inc = 1;
 
+    setTextColor(GLOBAL(nickbg), RGB(7, blue, 3));
+    if (blue >= 7) {
+        inc = -1;
+    }
+    else if (blue <= 0) {
+        inc = 1;
+    }
+    blue += inc;
     setExtFont(GLOBAL(nickfont));
     dy= (RESY - getFontHeight()) / 3 * 2;
     DoString(dx, dy, "<3");
+    resetColor();
 }
 
 void simpleNickname(void) {
@@ -84,7 +102,7 @@ void simpleNickname(void) {
     batteryLevel();
 	lcdDisplay();
 
-    getInputWaitTimeout(100);
+    getInputWaitTimeout(300);
     return;
 }
 
